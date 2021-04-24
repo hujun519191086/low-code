@@ -53,7 +53,7 @@ mysql 5.7
 
 ## 首页
 
-![登录页面](https://images.gitee.com/uploads/images/2020/0922/220910_e720716c_508704.png)
+![登录页面](index.png)
 
 默认的登录账号为 admin/123456。
 
@@ -62,8 +62,6 @@ mysql 5.7
 [v0.0.1-基本 dal 等实现]()
 
 # 拓展阅读
-
-
 
 # 后期 Road-MAP
 
