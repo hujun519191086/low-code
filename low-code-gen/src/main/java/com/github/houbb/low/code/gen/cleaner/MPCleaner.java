@@ -1,4 +1,4 @@
-package com.github.houbb.low.code.gen.core;
+package com.github.houbb.low.code.gen.cleaner;
 
 import com.github.houbb.heaven.util.io.FileUtil;
 import com.github.houbb.heaven.util.lang.StringUtil;

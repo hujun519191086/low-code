@@ -21,10 +21,6 @@ mybatis-plus+druid+mysql 数据库
 
 vue+element-ui 页面
 
-hibernate-validator 参数校验
-
-jwt 授权
-
 ## 变更日志
 
 [变更日志](CHANGELOG.md)
@@ -55,15 +51,25 @@ mysql 5.7
 
 ![登录页面](index.png)
 
-默认的登录账号为 admin/123456。
-
 # 分支特性
 
-[v0.0.1-基本 dal 等实现]()
+[v0.0.1-基本 dal 等实现](https://github.com/houbb/low-code/tree/release_0.0.1)
+
+[v0.0.2-实现增删改等功能](https://github.com/houbb/low-code/tree/release_0.0.2)
 
 # 拓展阅读
 
 # 后期 Road-MAP
+
+- [ ] 查询功能
+
+- [ ] 依赖名称生成更加优雅，变为首字母小写
+
+- [ ] 根据 @TableId 获取对应的 id 字段
+
+- [ ] 导出功能
+
+- [ ] 导入功能
 
 ## 数据源
 

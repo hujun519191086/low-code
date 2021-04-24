@@ -41,6 +41,7 @@
         <web-common.version>0.0.1</web-common.version>
         <heaven.version>0.1.129</heaven.version>
         <auto-log.version>0.0.13</auto-log.version>
+        <log-integration.version>1.1.8</log-integration.version>
 
         <!--============================== OTHER ==============================-->
         <fastjson.version>1.2.73</fastjson.version>
@@ -52,6 +53,7 @@
         <druid.version>1.1.14</druid.version>
         <aspectj.version>1.8.10</aspectj.version>
         <velocity.version>2.0</velocity.version>
+        <freemarker.version>2.3.23</freemarker.version>
         <spring-boot.version>1.5.11.RELEASE</spring-boot.version>
         <nekohtml.version>1.9.22</nekohtml.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
@@ -103,6 +105,11 @@
                 <artifactId>auto-log-springboot-starter</artifactId>
                 <version>${auto-log.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>log-integration</artifactId>
+                <version>${log-integration.version}</version>
+            </dependency>
 
             <!--======================= OTHER =====================-->
             <dependency>
@@ -147,6 +154,11 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>

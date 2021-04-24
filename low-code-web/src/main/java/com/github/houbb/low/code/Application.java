@@ -1,4 +1,4 @@
-package com.github.houbb.low.code.web;
+package com.github.houbb.low.code;
 
 import com.github.houbb.auto.log.spring.annotation.EnableAutoLog;
 import org.springframework.boot.SpringApplication;

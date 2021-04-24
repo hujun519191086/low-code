@@ -1,16 +1,27 @@
-package com.github.houbb.low.code.gen.core;
+package com.github.houbb.low.code.gen.generator;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.github.houbb.low.code.gen.config.VueFileOutConfig;
+import com.github.houbb.low.code.gen.config.VueInjectionConfig;
+import com.github.houbb.low.code.gen.constant.LowCodeConst;
+import com.github.houbb.low.code.gen.engine.LowCodeFtlEngine;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author binbin.hou
- * @since 0.0.1
+ * @since 1.0.0
  */
-public class MPGenerator {
+public class LowCodeGenerator {
 
     /**
      * 覆盖生成下列文件，第一次建表时使用
@@ -34,6 +45,7 @@ public class MPGenerator {
         genDalXml(tables);
         genService(tables);
         genController(tables);
+        genVue(tables);
     }
 
     private static final String BASE_DIR = System.getProperty("user.dir");
@@ -44,7 +56,8 @@ public class MPGenerator {
         //创建代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //指定模板引擎  默认velocity
-        //mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+        AbstractTemplateEngine ate = new FreemarkerTemplateEngine();
+        mpg.setTemplateEngine(ate);
 
         //全局配置
         GlobalConfig gc = new GlobalConfig();
@@ -112,6 +125,25 @@ public class MPGenerator {
         return mpg;
     }
 
+    private static void genVue(String... tables) {
+        AutoGenerator mpg = initConfig(tables);
+
+        // 自定义配置
+        VueInjectionConfig injectionConfig = new VueInjectionConfig();
+        final String vuePathFormat = BASE_DIR + "/low-code-web/src\\main\\resources\\templates\\%s\\index.html";
+        FileOutConfig vueOutConfig = new VueFileOutConfig(vuePathFormat);
+        List<FileOutConfig> outConfigs = Arrays.asList(vueOutConfig);
+        injectionConfig.setFileOutConfigList(outConfigs);
+
+        ConfigBuilder config = new ConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
+        mpg.getConfig().setInjectionConfig(injectionConfig);
+
+        // 生成
+        mpg.execute();
+    }
+
     /**
      * 生成 dal 的 java 代码
      * @param tables 表名称
@@ -161,8 +193,8 @@ public class MPGenerator {
         AutoGenerator mpg = initConfig(tables);
 
         mpg.getGlobalConfig().setOutputDir(BASE_DIR+"/"+moduleName+"\\src\\main\\java\\");
-        mpg.getTemplate().setService(ConstVal.TEMPLATE_SERVICE);
-        mpg.getTemplate().setServiceImpl(ConstVal.TEMPLATE_SERVICEIMPL);
+        mpg.getTemplate().setService(LowCodeConst.TEMPLATE_SERVICE);
+        mpg.getTemplate().setServiceImpl(LowCodeConst.TEMPLATE_SERVICEIMPL);
 
         mpg.execute();
     }
@@ -172,7 +204,7 @@ public class MPGenerator {
         AutoGenerator mpg = initConfig(tables);
 
         mpg.getGlobalConfig().setOutputDir(BASE_DIR+"/"+moduleName+"\\src\\main\\java\\");
-        mpg.getTemplate().setController(ConstVal.TEMPLATE_CONTROLLER);
+        mpg.getTemplate().setController(LowCodeConst.TEMPLATE_CONTROLLER);
 
         mpg.execute();
     }

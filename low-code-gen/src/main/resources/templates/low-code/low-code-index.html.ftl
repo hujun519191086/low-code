@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>用户表首页</title>
+    <title>${table.comment}首页</title>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"/>
     <link rel="stylesheet" href="/css/common.css"/>
@@ -31,38 +31,14 @@
                 <el-table-column type="index" label="序号" width="60">
                 </el-table-column>
 
+                <#-- ----------  BEGIN 字段循环遍历  ---------->
+                <#list table.fields as field>
                     <el-table-column
-                            property="id"
-                            label="自增主键">
+                            property="${field.propertyName}"
+                            label="${field.comment}">
                     </el-table-column>
-                    <el-table-column
-                            property="userId"
-                            label="用户标识">
-                    </el-table-column>
-                    <el-table-column
-                            property="userName"
-                            label="用户名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="remark"
-                            label="用户描述">
-                    </el-table-column>
-                    <el-table-column
-                            property="appName"
-                            label="应用名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="operatorName"
-                            label="操作员名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="createTime"
-                            label="创建时间戳">
-                    </el-table-column>
-                    <el-table-column
-                            property="updateTime"
-                            label="更新时间戳">
-                    </el-table-column>
+                </#list>
+                <#------------  END 字段循环遍历  ---------->
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
@@ -92,40 +68,14 @@
 
         <my-footer></my-footer>
 
-        <el-dialog title="添加用户表" :visible.sync="dialogAddVisible">
+        <el-dialog title="添加${table.comment}" :visible.sync="dialogAddVisible">
             <el-form :model="addForm"  ref="addForm">
-                    <el-form-item label="自增主键" prop="id">
-                        <el-input v-model="addForm.id">
+                <#list table.fields as field>
+                    <el-form-item label="${field.comment}" prop="${field.propertyName}">
+                        <el-input v-model="addForm.${field.propertyName}">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户标识" prop="userId">
-                        <el-input v-model="addForm.userId">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户名称" prop="userName">
-                        <el-input v-model="addForm.userName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户描述" prop="remark">
-                        <el-input v-model="addForm.remark">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称" prop="appName">
-                        <el-input v-model="addForm.appName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称" prop="operatorName">
-                        <el-input v-model="addForm.operatorName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="创建时间戳" prop="createTime">
-                        <el-input v-model="addForm.createTime">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="更新时间戳" prop="updateTime">
-                        <el-input v-model="addForm.updateTime">
-                        </el-input>
-                    </el-form-item>
+                </#list>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogAddVisible = false">取 消</el-button>
@@ -133,40 +83,14 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="修改用户表" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
+        <el-dialog title="修改${table.comment}" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
             <el-form :model="editForm" ref="editForm">
-                    <el-form-item label="自增主键" prop="id">
-                        <el-input v-model="editForm.id">
+                <#list table.fields as field>
+                    <el-form-item label="${field.comment}" prop="${field.propertyName}">
+                        <el-input v-model="editForm.${field.propertyName}">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户标识" prop="userId">
-                        <el-input v-model="editForm.userId">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户名称" prop="userName">
-                        <el-input v-model="editForm.userName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户描述" prop="remark">
-                        <el-input v-model="editForm.remark">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称" prop="appName">
-                        <el-input v-model="editForm.appName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称" prop="operatorName">
-                        <el-input v-model="editForm.operatorName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="创建时间戳" prop="createTime">
-                        <el-input v-model="editForm.createTime">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="更新时间戳" prop="updateTime">
-                        <el-input v-model="editForm.updateTime">
-                        </el-input>
-                    </el-form-item>
+                </#list>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogEditVisible = false">取 消</el-button>
@@ -197,14 +121,9 @@
             },
             dialogAddVisible: false,
             addForm: {
-                id: '',
-                userId: '',
-                userName: '',
-                remark: '',
-                appName: '',
-                operatorName: '',
-                createTime: '',
-                updateTime: '',
+                <#list table.fields as field>
+                ${field.propertyName}: '',
+                </#list>
             },
             queryForm: {
                 userId: '',
@@ -212,14 +131,9 @@
             },
             dialogEditVisible: false,
             editForm: {
-                id: '',
-                userId: '',
-                userName: '',
-                remark: '',
-                appName: '',
-                operatorName: '',
-                createTime: '',
-                updateTime: '',
+                <#list table.fields as field>
+                ${field.propertyName}: '',
+                </#list>
             },
         },
         mounted () {
@@ -242,7 +156,7 @@
                 console.log("请求：" + JSON.stringify(req));
                 //axios 中的 this 并不指向 vue
                 var _this = this;
-                axios.post('/user/list', req).then(function (response) {
+                axios.post('/${table.entityPath}/list', req).then(function (response) {
                     if(response.data.respCode === '0000') {
                         _this.tableData = response.data.list;
                         _this.page.total = response.data.total;
@@ -266,7 +180,7 @@
             handleDelete(row) {
                 var id = row.id;
                 var _this = this;
-                axios.post('/user/remove/' + id).then(function (response) {
+                axios.post('/${table.entityPath}/remove/' + id).then(function (response) {
                     if(response.data.respCode === '0000') {
                         _this.doQuery();
 
@@ -303,16 +217,13 @@
                 var _this = this;
 
                 var entity = {
-                    id: this.addForm.id,
-                    userId: this.addForm.userId,
-                    userName: this.addForm.userName,
-                    remark: this.addForm.remark,
-                    appName: this.addForm.appName,
-                    operatorName: this.addForm.operatorName,
-                    createTime: this.addForm.createTime,
-                    updateTime: this.addForm.updateTime,
+                    <#-- ----------  BEGIN 字段循环遍历  ---------->
+                    <#list table.fields as field>
+                    ${field.propertyName}: this.addForm.${field.propertyName},
+                    </#list>
+                    <#------------  END 字段循环遍历  ---------->
                 }
-                axios.post('/user/add', entity).then(function (response) {
+                axios.post('/${table.entityPath}/add', entity).then(function (response) {
                     if(response.data.respCode === '0000') {
                         ELEMENT.Message.success("请求成功");
                         _this.closeDialogAddVisible();
@@ -334,14 +245,11 @@
                 this.dialogEditVisible = false;
             },
             handleEdit(row) {
-                this.editForm.id = row.id;
-                this.editForm.userId = row.userId;
-                this.editForm.userName = row.userName;
-                this.editForm.remark = row.remark;
-                this.editForm.appName = row.appName;
-                this.editForm.operatorName = row.operatorName;
-                this.editForm.createTime = row.createTime;
-                this.editForm.updateTime = row.updateTime;
+                <#-- ----------  BEGIN 字段循环遍历  ---------->
+                <#list table.fields as field>
+                this.editForm.${field.propertyName} = row.${field.propertyName};
+                </#list>
+                <#------------  END 字段循环遍历  ---------->
 
                 // 显示编辑 form
                 this.dialogEditVisible = true;
@@ -352,19 +260,16 @@
              */
             saveEditForm(editForm) {
                 var entity = {
-                    id: this.editForm.id,
-                    userId: this.editForm.userId,
-                    userName: this.editForm.userName,
-                    remark: this.editForm.remark,
-                    appName: this.editForm.appName,
-                    operatorName: this.editForm.operatorName,
-                    createTime: this.editForm.createTime,
-                    updateTime: this.editForm.updateTime,
+                    <#-- ----------  BEGIN 字段循环遍历  ---------->
+                    <#list table.fields as field>
+                    ${field.propertyName}: this.editForm.${field.propertyName},
+                    </#list>
+                    <#------------  END 字段循环遍历  ---------->
                 };
                 // 此处使用 qs 序列化，后端不需要使用 @RequestBody 注解。
                 var data = Qs.stringify(entity);
                 var _this = this;
-                axios.post('/user/edit', data).then(function (response) {
+                axios.post('/${table.entityPath}/edit', data).then(function (response) {
                     if(response.data.respCode === '0000') {
                         ELEMENT.Message.success("请求成功");
                         _this.doQuery();
