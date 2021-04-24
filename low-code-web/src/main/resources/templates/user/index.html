@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>用户首页</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
+</head>
+<body>
+<div id="app">
+    <el-container direction="vertical">
+        <my-header></my-header>
+
+        <el-main>
+
+            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
+                <el-form-item label="用户标识">
+                    <el-input v-model="queryForm.userId"></el-input>
+                </el-form-item>
+                <el-form-item label="用户名称">
+                    <el-input v-model="queryForm.userName"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
+                    <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
+                    <el-button type="success" @click="dialogAddVisible = true" icon="el-icon-plus">新增</el-button>
+                </el-form-item>
+            </el-form>
+
+            <el-divider></el-divider>
+
+            <el-table
+                    ref="singleTable"
+                    :data="tableData"
+                    border
+                    stripe
+                    style="width: 100%">
+                <el-table-column type="index" label="序号" width="60">
+                </el-table-column>
+                <el-table-column
+                        property="id"
+                        label="用户主键"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        property="userId"
+                        label="用户标识">
+                </el-table-column>
+                <el-table-column
+                        property="userName"
+                        label="用户名称">
+                </el-table-column>
+                <el-table-column
+                        property="remark"
+                        label="备注">
+                </el-table-column>
+                <el-table-column
+                        property="createTime"
+                        label="创建时间">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                type="primary"
+                                @click="handleRole(scope.row)"><i class="el-icon-magic-stick"></i></el-button>
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <el-pagination
+                    background
+                    layout="total, prev, pager, next"
+                    :data="page"
+                    :total="page.total"
+                    :current-page="page.pageNum"
+                    :page-size="page.pageSize"
+                    @current-change="handleCurrentChange"
+            >
+            </el-pagination>
+
+        </el-main>
+
+        <my-footer></my-footer>
+
+        <el-dialog title="添加用户" :visible.sync="dialogAddVisible">
+            <el-form :model="addForm" :rules="addRules" ref="addForm">
+                <el-form-item label="用户标识" prop="userId">
+                    <el-input v-model="addForm.userId"  autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="用户名称" prop="userName">
+                    <el-input v-model="addForm.userName"  autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="用户备注" prop="remark">
+                    <el-input v-model="addForm.remark" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogAddVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveAddForm('addForm')">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="修改用户" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
+            <el-form :model="editForm" :rules="editRules" ref="editForm">
+                <el-form-item label="用户主键" style="display: none;" prop="id">
+                    <el-input v-model="editForm.id" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="用户标识" prop="userId">
+                    <el-input v-model="editForm.userId"  autocomplete="off" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="用户名称" prop="userName">
+                    <el-input v-model="editForm.userName"  autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="用户备注" prop="remark">
+                    <el-input v-model="editForm.remark" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogEditVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveEditForm('editForm')">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="编辑角色" :visible.sync="transfer.dialogVisible" @close="closeRoleDialog">
+            <el-transfer v-model="transfer.value" :data="transfer.data" :titles="['全部角色', '已有角色']"></el-transfer>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="transfer.dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="doSaveRole()">确 定</el-button>
+            </div>
+        </el-dialog>
+
+    </el-container>
+</div>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<!--axios-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/qs/6.5.1/qs.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            transfer: {
+                data: [],
+                value: [],
+                dialogVisible: false,
+                userId: ''
+            },
+            tableData: [],
+            page: {
+                total: 0,
+                pageNum: 1,
+                pageSize: 10
+            },
+            dialogAddVisible: false,
+            addRules: {
+                userId: [
+                    {required: true, message: '请输入用户标识', trigger: 'blur'},
+                    {min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur'}
+                ],
+                userName: [
+                    {required: true, message: '请输入用户名称', trigger: 'blur'},
+                    {min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur'}
+                ],
+                remark: [
+                    {min: 0, max: 128, message: '备注长度在 1 到 128 个字符', trigger: 'blur'}
+                ],
+            },
+            addForm: {
+                userId: '',
+                userName: '',
+                remark: ''
+            },
+            queryForm: {
+                userId: '',
+                userName: '',
+            },
+            dialogEditVisible: false,
+            editForm: {
+                id: '',
+                userId: '',
+                userName: '',
+                remark: '',
+                createTime: ''
+            },
+            editRules: {
+                userId: [
+                    {required: true, message: '请输入用户标识', trigger: 'blur'},
+                    {min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur'}
+                ],
+                userName: [
+                    {required: true, message: '请输入用户名称', trigger: 'blur'},
+                    {min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur'}
+                ],
+                remark: [
+                    {min: 0, max: 128, message: '备注长度在 1 到 128 个字符', trigger: 'blur'}
+                ],
+            }
+        },
+        mounted () {
+            // 接在完成之后，调用初始化方法
+            this.init()
+        },
+        methods: {
+            init() {
+                // 加载数据
+                this.doQuery();
+
+                // 查询所有角色信息
+                this.queryRoleOptions();
+            },
+            closeRoleDialog(){
+                this.transfer.value = [];
+                this.transfer.dialogVisible = false;
+                this.transfer.userId = '';
+            },
+            queryRoleOptions() {
+                //axios 中的 this 并不指向 vue
+                var _this = this;
+                axios.post('/role/options').then(function (response) {
+                    if(response.data.respCode === '0000') {
+                        _this.transfer.data = response.data.list;
+                    } else {
+                        ELEMENT.Message.error(response.data.respMessage);
+                    }
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            },
+            doQuery() {
+                var req = {
+                    id: this.queryForm.userId,
+                    name: this.queryForm.userName,
+                    pageNum: this.page.pageNum,
+                    pageSize: this.page.pageSize
+                }
+
+                console.log("请求：" + JSON.stringify(req));
+                //axios 中的 this 并不指向 vue
+                var _this = this;
+                axios.post('/user/list', req).then(function (response) {
+                    if(response.data.respCode === '0000') {
+                        _this.tableData = response.data.list;
+                        _this.page.total = response.data.total;
+                    } else {
+                        ELEMENT.Message.error(response.data.respMessage);
+                    }
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            },
+            doQueryClear() {
+                this.queryForm.userId = '';
+                this.queryForm.userName = '';
+            },
+            handleEdit(row) {
+                this.editForm.id = row.id;
+                this.editForm.userId = row.userId;
+                this.editForm.userName = row.userName;
+                this.editForm.remark = row.remark;
+                this.editForm.createTime = row.createTime;
+
+                // 显示编辑 form
+                this.dialogEditVisible = true;
+            },
+            handleDelete(row) {
+                var userId = row.userId;
+                var _this = this;
+                axios.post('/user/remove/' + userId).then(function (response) {
+                    if(response.data.respCode === '0000') {
+                        _this.doQuery();
+
+                        ELEMENT.Message.success("删除成功");
+                        visible = false;
+                    } else {
+                        ELEMENT.Message.error(response.data.respMessage);
+                    }
+                }).catch(function (error) {
+                    ELEMENT.Message.error("删除失败");
+                });
+            },
+            handleRole(row) {
+                var userId = row.userId;
+                //axios 中的 this 并不指向 vue
+                var _this = this;
+                axios.post('/userRole/roles/'+userId).then(function (response) {
+                    if(response.data.respCode === '0000') {
+                        _this.transfer.userId = userId;
+                        _this.transfer.value = response.data.list;
+                        _this.transfer.dialogVisible = true;
+                    } else {
+                        ELEMENT.Message.error(response.data.respMessage);
+                    }
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            },
+            doSaveRole() {
+                var userId = this.transfer.userId;
+                var roleIds = this.transfer.value;
+
+                //axios 中的 this 并不指向 vue
+                var _this = this;
+                var url = '/userRole/edit?userId='+userId+"&roleIds="+roleIds;
+                axios.post(url).then(function (response) {
+                    if(response.data.respCode === '0000') {
+                        ELEMENT.Message.success("请求成功");
+                        _this.closeRoleDialog();
+                    } else {
+                        ELEMENT.Message.error(response.data.respMessage);
+                    }
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            },
+            handleCurrentChange(val) {
+                this.page.pageNum = val;
+                this.doQuery();
+            },
+            closeDialogAddVisible() {
+                this.$refs.addForm.resetFields();//element封装的方法,清空模态框的值
+                this.dialogAddVisible = false;
+            },
+            /**
+             *确定新增数据
+             * @param aaa 表单信息
+             */
+            saveAddForm(aaa) {
+                var _this = this;
+                this.$refs[aaa].validate((valid) => {
+                    if (valid) {
+                        var user = {
+                            userId: this.addForm.userId,
+                            userName: this.addForm.userName,
+                            remark: this.addForm.remark
+                        }
+                        axios.post('/user/add', user).then(function (response) {
+                            if(response.data.respCode === '0000') {
+                                ELEMENT.Message.success("请求成功");
+                                _this.closeDialogAddVisible();
+                                _this.doQuery();
+                            } else {
+                                ELEMENT.Message.error(response.data.respMessage);
+                            }
+                        }).catch(function (error) {
+                            ELEMENT.Message.error("请求失败");
+                            console.log(error);
+                        });
+                    }
+                })
+            },
+            closeDialogEditVisible() {
+                this.$refs.editForm.resetFields();//element封装的方法,清空模态框的值
+                this.dialogEditVisible = false;
+            },
+            saveEditForm(editForm) {
+                var user = {
+                    id: this.editForm.id,
+                    userId: this.editForm.userId,
+                    userName: this.editForm.userName,
+                    remark: this.editForm.remark
+                };
+                // 此处使用 qs 序列化，后端不需要使用 @RequestBody 注解。
+                var userData = Qs.stringify(user);
+                var _this = this;
+                axios.post('/user/edit', userData).then(function (response) {
+                    if(response.data.respCode === '0000') {
+                        ELEMENT.Message.success("请求成功");
+                        _this.doQuery();
+                        _this.closeDialogEditVisible();
+                    } else {
+                        ELEMENT.Message.error(response.data.respMessage);
+                    }
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
