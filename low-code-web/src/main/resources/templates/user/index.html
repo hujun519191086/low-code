@@ -40,11 +40,16 @@
                         <el-input v-model="queryForm.updateTime"></el-input>
                     </el-form-item>
 
-                <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
-                <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
                 <el-form-item>
+                    <el-button-group>
+                        <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
+                        <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
+                        <el-button type="default" @click="doExport('queryForm')" icon="el-icon-download">导出</el-button>
+                    </el-button-group>
+
                     <el-button type="success" @click="dialogAddVisible = true" icon="el-icon-plus">新增</el-button>
                 </el-form-item>
+
             </el-form>
 
             <el-divider></el-divider>
@@ -234,14 +239,14 @@
                 updateTime: '',
             },
             queryForm: {
-                id: '',
-                userId: '',
-                userName: '',
-                remark: '',
-                appName: '',
-                operatorName: '',
-                createTime: '',
-                updateTime: '',
+                id: null,
+                userId: null,
+                userName: null,
+                remark: null,
+                appName: null,
+                operatorName: null,
+                createTime: null,
+                updateTime: null,
             },
             dialogEditVisible: false,
             editForm: {
@@ -294,10 +299,54 @@
                 });
             },
             doQueryClear() {
-                this.queryForm.userId = '';
-                this.queryForm.userName = '';
-            },
+                this.queryForm.id = null;
+                this.queryForm.userId = null;
+                this.queryForm.userName = null;
+                this.queryForm.remark = null;
+                this.queryForm.appName = null;
+                this.queryForm.operatorName = null;
+                this.queryForm.createTime = null;
+                this.queryForm.updateTime = null;
 
+                this.doQuery();
+            },
+            doExport() {
+                var req = {
+                    id: this.queryForm.id,
+                    userId: this.queryForm.userId,
+                    userName: this.queryForm.userName,
+                    remark: this.queryForm.remark,
+                    appName: this.queryForm.appName,
+                    operatorName: this.queryForm.operatorName,
+                    createTime: this.queryForm.createTime,
+                    updateTime: this.queryForm.updateTime,
+                }
+
+                console.log("请求：" + JSON.stringify(req));
+                //axios 中的 this 并不指向 vue
+                var _this = this;
+                axios({ // 用axios发送post请求
+                    method: 'post',
+                    url: '/user/export', // 请求地址
+                    data: req, // 参数
+                    responseType: 'blob', // 表明返回服务器返回的数据类型
+                    headers: {'Content-Type': 'application/json'}
+                }).
+                then(function (response) {
+                    let fileName = window.decodeURI(response.headers['content-disposition'].split('=')[1]);
+                    let link = document.createElement("a");
+                    const blob =new Blob([response.data]);
+                    link.href = window.URL.createObjectURL(blob);
+                    link.target = "_blank";
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            },
             /**
              * 处理删除逻辑
              * @param row 当前行

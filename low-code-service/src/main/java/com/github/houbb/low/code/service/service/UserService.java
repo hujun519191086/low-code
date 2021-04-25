@@ -10,7 +10,7 @@ import com.github.houbb.web.common.dto.resp.BasePageInfo;
  * 用户表 服务类
  * </p>
  *
- * @author binbin.hou
+ * @author Administrator
  * @since 2021-04-25
  */
 public interface UserService extends IService<User> {

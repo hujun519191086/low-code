@@ -12,6 +12,7 @@ import com.github.houbb.low.code.gen.config.PagePoFileOutConfig;
 import com.github.houbb.low.code.gen.config.VueFileOutConfig;
 import com.github.houbb.low.code.gen.config.VueInjectionConfig;
 import com.github.houbb.low.code.gen.constant.LowCodeConst;
+import com.github.houbb.low.code.gen.engine.MyFtlEngine;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +59,7 @@ public class LowCodeGenerator {
         //创建代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //指定模板引擎  默认velocity
-        AbstractTemplateEngine ate = new FreemarkerTemplateEngine();
+        AbstractTemplateEngine ate = new MyFtlEngine();
         mpg.setTemplateEngine(ate);
 
         //全局配置
@@ -179,7 +180,8 @@ public class LowCodeGenerator {
         AutoGenerator mpg = initConfig(tables);
 
         mpg.getGlobalConfig().setOutputDir(BASE_DIR+"/"+moduleName+"\\src\\main\\java\\");
-        mpg.getTemplate().setEntity(ConstVal.TEMPLATE_ENTITY_JAVA);
+//        mpg.getTemplate().setEntity(ConstVal.TEMPLATE_ENTITY_JAVA);
+        mpg.getTemplate().setEntity("/templates/low-code/low-code-entity.java");
 
         mpg.execute();
     }

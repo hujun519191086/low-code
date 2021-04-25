@@ -36,10 +36,35 @@ public class MPCleaner {
             cleanDalXml(entityName);
             cleanService(entityName);
             cleanController(entityName);
+            cleanVue(entityName);
+            cleanPagePo(entityName);
         }
     }
 
     private static final String BASE_DIR = System.getProperty("user.dir");
+
+    /**
+     * 生成 dal 的 pagePo 代码
+     * @param entityName 实例名称
+     * @since 0.0.1
+     */
+    private static void cleanPagePo(String entityName) {
+        final String pathFormat = BASE_DIR + "/low-code-dal/src\\main\\java\\com\\github\\houbb\\low\\code\\dal\\entity\\po\\"+entityName+"PagePo.java";
+        FileUtil.deleteFile(new File(pathFormat));
+    }
+
+    /**
+     * 生成 dal 的 java 代码
+     * @param entityName 实例名称
+     * @since 0.0.1
+     */
+    private static void cleanVue(String entityName) {
+        String lowerCase = StringUtil.firstToLowerCase(entityName);
+
+        final String path = BASE_DIR + "/low-code-web/src\\main\\resources\\templates\\"+lowerCase+"\\index.html";
+        System.out.println(path);
+        FileUtil.deleteFile(new File(path));
+    }
 
     /**
      * 生成 dal 的 java 代码

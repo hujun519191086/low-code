@@ -9,6 +9,10 @@
 
 ## 特性
 
+- 支持基本的增删改查
+
+- 支持 EXCEL 导出
+
 - 代码一键生成
 
 - 生产代码一键清理
@@ -57,19 +61,23 @@ mysql 5.7
 
 [v0.0.2-实现增删改等功能](https://github.com/houbb/low-code/tree/release_0.0.2)
 
+[v0.0.3-实现分页查询](https://github.com/houbb/low-code/tree/release_0.0.3)
+
+[v0.0.4-实现 EXCEL 导出](https://github.com/houbb/low-code/tree/release_0.0.4)
+
 # 拓展阅读
 
 # 后期 Road-MAP
 
-- [ ] 查询功能
-
-- [ ] 依赖名称生成更加优雅，变为首字母小写
+- [ ] 导入功能
 
 - [ ] 根据 @TableId 获取对应的 id 字段
 
-- [ ] 导出功能
+- [ x ] 依赖名称生成更加优雅，变为首字母小写
 
-- [ ] 导入功能
+- [ x ] 导出功能
+
+- [ x ] 查询功能
 
 ## 数据源
 

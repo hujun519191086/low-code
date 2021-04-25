@@ -23,11 +23,16 @@
                 </#list>
                 <#------------  END 字段循环遍历  ---------->
 
-                <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
-                <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
                 <el-form-item>
+                    <el-button-group>
+                        <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
+                        <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
+                        <el-button type="default" @click="doExport('queryForm')" icon="el-icon-download">导出</el-button>
+                    </el-button-group>
+
                     <el-button type="success" @click="dialogAddVisible = true" icon="el-icon-plus">新增</el-button>
                 </el-form-item>
+
             </el-form>
 
             <el-divider></el-divider>
@@ -137,7 +142,7 @@
             },
             queryForm: {
                 <#list table.fields as field>
-                ${field.propertyName}: '',
+                ${field.propertyName}: null,
                 </#list>
             },
             dialogEditVisible: false,
@@ -181,10 +186,44 @@
                 });
             },
             doQueryClear() {
-                this.queryForm.userId = '';
-                this.queryForm.userName = '';
-            },
+                <#list table.fields as field>
+                this.queryForm.${field.propertyName} = null;
+                </#list>
 
+                this.doQuery();
+            },
+            doExport() {
+                var req = {
+                    <#list table.fields as field>
+                    ${field.propertyName}: this.queryForm.${field.propertyName},
+                    </#list>
+                }
+
+                console.log("请求：" + JSON.stringify(req));
+                //axios 中的 this 并不指向 vue
+                var _this = this;
+                axios({ // 用axios发送post请求
+                    method: 'post',
+                    url: '/${table.entityPath}/export', // 请求地址
+                    data: req, // 参数
+                    responseType: 'blob', // 表明返回服务器返回的数据类型
+                    headers: {'Content-Type': 'application/json'}
+                }).
+                then(function (response) {
+                    let fileName = window.decodeURI(response.headers['content-disposition'].split('=')[1]);
+                    let link = document.createElement("a");
+                    const blob =new Blob([response.data]);
+                    link.href = window.URL.createObjectURL(blob);
+                    link.target = "_blank";
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    ELEMENT.Message.error("请求失败");
+                    console.log(error);
+                });
+            },
             /**
              * 处理删除逻辑
              * @param row 当前行

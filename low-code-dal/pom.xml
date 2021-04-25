@@ -24,6 +24,10 @@
             <groupId>com.github.houbb</groupId>
             <artifactId>auto-log-springboot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>iexcel</artifactId>
+        </dependency>
 
         <!--======================= OTHER =====================-->
         <dependency>

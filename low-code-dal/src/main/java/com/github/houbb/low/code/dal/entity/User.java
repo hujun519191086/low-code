@@ -1,5 +1,6 @@
 package com.github.houbb.low.code.dal.entity;
 
+import com.github.houbb.iexcel.annotation.ExcelField;
 import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -13,7 +14,7 @@ import java.io.Serializable;
  * 用户表
  * </p>
  *
- * @author binbin.hou
+ * @author Administrator
  * @since 2021-04-25
  */
 public class User implements Serializable {
@@ -24,48 +25,56 @@ public class User implements Serializable {
      * 自增主键
      */
     @TableId(value = "id", type = IdType.AUTO)
+    @ExcelField(headName = "自增主键")
     private Integer id;
 
     /**
      * 用户标识
      */
     @TableField("user_id")
+    @ExcelField(headName = "用户标识")
     private String userId;
 
     /**
      * 用户名称
      */
     @TableField("user_name")
+    @ExcelField(headName = "用户名称")
     private String userName;
 
     /**
      * 用户描述
      */
     @TableField("remark")
+    @ExcelField(headName = "用户描述")
     private String remark;
 
     /**
      * 应用名称
      */
     @TableField("app_name")
+    @ExcelField(headName = "应用名称")
     private String appName;
 
     /**
      * 操作员名称
      */
     @TableField("operator_name")
+    @ExcelField(headName = "操作员名称")
     private String operatorName;
 
     /**
      * 创建时间戳
      */
     @TableField("create_time")
+    @ExcelField(headName = "创建时间戳")
     private Date createTime;
 
     /**
      * 更新时间戳
      */
     @TableField("update_time")
+    @ExcelField(headName = "更新时间戳")
     private Date updateTime;
 
     public Integer getId() {
