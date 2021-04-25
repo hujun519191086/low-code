@@ -15,6 +15,16 @@
         <el-main>
 
             <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
+                <#-- ----------  BEGIN 字段循环遍历  ---------->
+                <#list table.fields as field>
+                    <el-form-item label="${field.comment}">
+                        <el-input v-model="queryForm.${field.propertyName}"></el-input>
+                    </el-form-item>
+                </#list>
+                <#------------  END 字段循环遍历  ---------->
+
+                <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
+                <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
                 <el-form-item>
                     <el-button type="success" @click="dialogAddVisible = true" icon="el-icon-plus">新增</el-button>
                 </el-form-item>
@@ -126,8 +136,9 @@
                 </#list>
             },
             queryForm: {
-                userId: '',
-                userName: '',
+                <#list table.fields as field>
+                ${field.propertyName}: '',
+                </#list>
             },
             dialogEditVisible: false,
             editForm: {
@@ -147,8 +158,9 @@
             },
             doQuery() {
                 var req = {
-                    id: this.queryForm.userId,
-                    name: this.queryForm.userName,
+                    <#list table.fields as field>
+                    ${field.propertyName}: this.queryForm.${field.propertyName},
+                    </#list>
                     pageNum: this.page.pageNum,
                     pageSize: this.page.pageSize
                 }

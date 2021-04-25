@@ -4,7 +4,6 @@ use lowcode;
 -- ------------------------------------------------
 -- 基本权限配置表
 -- ------------------------------------------------
-drop table user;
 create table user
 (
     id int unsigned auto_increment comment '自增主键' primary key,

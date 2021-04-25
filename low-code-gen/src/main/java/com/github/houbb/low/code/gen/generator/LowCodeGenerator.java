@@ -2,17 +2,16 @@ package com.github.houbb.low.code.gen.generator;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.github.houbb.low.code.gen.config.PagePoFileOutConfig;
 import com.github.houbb.low.code.gen.config.VueFileOutConfig;
 import com.github.houbb.low.code.gen.config.VueInjectionConfig;
 import com.github.houbb.low.code.gen.constant.LowCodeConst;
-import com.github.houbb.low.code.gen.engine.LowCodeFtlEngine;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +24,14 @@ public class LowCodeGenerator {
 
     /**
      * 覆盖生成下列文件，第一次建表时使用
+     * 0. pagePo
      * 1. java mapper
      * 2. java enity
      * 3. xml mapper
      * 4. service
      * 5. control
      * 6. html
+     *
      *
      * 更新时使用：
      * 1. 只修改对应的实体类即可，其他注释掉。
@@ -40,6 +41,7 @@ public class LowCodeGenerator {
                 "user",
         };
 
+        genPagePo(tables);
         genDalJavaEntity(tables);
         genDalJavaMapper(tables);
         genDalXml(tables);
@@ -132,6 +134,29 @@ public class LowCodeGenerator {
         VueInjectionConfig injectionConfig = new VueInjectionConfig();
         final String vuePathFormat = BASE_DIR + "/low-code-web/src\\main\\resources\\templates\\%s\\index.html";
         FileOutConfig vueOutConfig = new VueFileOutConfig(vuePathFormat);
+        List<FileOutConfig> outConfigs = Arrays.asList(vueOutConfig);
+        injectionConfig.setFileOutConfigList(outConfigs);
+
+        ConfigBuilder config = new ConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
+        mpg.getConfig().setInjectionConfig(injectionConfig);
+
+        // 生成
+        mpg.execute();
+    }
+
+    /**
+     * 分页查询对象
+     * @param tables 表信息
+     */
+    private static void genPagePo(String... tables) {
+        AutoGenerator mpg = initConfig(tables);
+
+        // 自定义配置
+        VueInjectionConfig injectionConfig = new VueInjectionConfig();
+        final String pathFormat = BASE_DIR + "/low-code-dal/src\\main\\java\\com\\github\\houbb\\low\\code\\dal\\entity\\po\\%sPagePo.java";
+        FileOutConfig vueOutConfig = new PagePoFileOutConfig(pathFormat);
         List<FileOutConfig> outConfigs = Arrays.asList(vueOutConfig);
         injectionConfig.setFileOutConfigList(outConfigs);
 

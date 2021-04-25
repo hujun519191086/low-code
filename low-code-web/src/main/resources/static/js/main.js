@@ -1,7 +1,7 @@
 Vue.component('my-footer', {
     template: '<div>\n' +
         '<el-divider></el-divider>\n' +
-        '<el-footer>由<el-link :underline="false" href="https://github.com/houbb/low-code" type="primary">low-code</el-link>强力支持</el-footer>\n' +
+        '<el-footer>由 <el-link :underline="false" href="https://github.com/houbb/low-code" type="primary">low-code</el-link> 强力支持</el-footer>\n' +
         '</div>',
     data() {
         return {

@@ -1,8 +1,8 @@
 package ${package.Service};
 
 import ${package.Entity}.${entity};
+import ${package.Entity}.po.${entity}PagePo;
 import ${superServiceClassPackage};
-import com.github.houbb.web.common.dto.req.CommonPageReq;
 import com.github.houbb.web.common.dto.resp.BasePageInfo;
 
 /**
@@ -23,7 +23,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param pageReq 请求
     * @return 结果
     */
-    BasePageInfo<${entity}> pageQueryList(CommonPageReq pageReq);
+    BasePageInfo<${entity}> pageQueryList(UserPagePo pageReq);
 
 }
 </#if>

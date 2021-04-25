@@ -15,6 +15,33 @@
         <el-main>
 
             <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
+                    <el-form-item label="自增主键">
+                        <el-input v-model="queryForm.id"></el-input>
+                    </el-form-item>
+                    <el-form-item label="用户标识">
+                        <el-input v-model="queryForm.userId"></el-input>
+                    </el-form-item>
+                    <el-form-item label="用户名称">
+                        <el-input v-model="queryForm.userName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="用户描述">
+                        <el-input v-model="queryForm.remark"></el-input>
+                    </el-form-item>
+                    <el-form-item label="应用名称">
+                        <el-input v-model="queryForm.appName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="操作员名称">
+                        <el-input v-model="queryForm.operatorName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="创建时间戳">
+                        <el-input v-model="queryForm.createTime"></el-input>
+                    </el-form-item>
+                    <el-form-item label="更新时间戳">
+                        <el-input v-model="queryForm.updateTime"></el-input>
+                    </el-form-item>
+
+                <el-button type="primary" @click="doQuery('queryForm')" icon="el-icon-search">查询</el-button>
+                <el-button type="warning" @click="doQueryClear('queryForm')" icon="el-icon-refresh-right">重置</el-button>
                 <el-form-item>
                     <el-button type="success" @click="dialogAddVisible = true" icon="el-icon-plus">新增</el-button>
                 </el-form-item>
@@ -207,8 +234,14 @@
                 updateTime: '',
             },
             queryForm: {
+                id: '',
                 userId: '',
                 userName: '',
+                remark: '',
+                appName: '',
+                operatorName: '',
+                createTime: '',
+                updateTime: '',
             },
             dialogEditVisible: false,
             editForm: {
@@ -233,8 +266,14 @@
             },
             doQuery() {
                 var req = {
-                    id: this.queryForm.userId,
-                    name: this.queryForm.userName,
+                    id: this.queryForm.id,
+                    userId: this.queryForm.userId,
+                    userName: this.queryForm.userName,
+                    remark: this.queryForm.remark,
+                    appName: this.queryForm.appName,
+                    operatorName: this.queryForm.operatorName,
+                    createTime: this.queryForm.createTime,
+                    updateTime: this.queryForm.updateTime,
                     pageNum: this.page.pageNum,
                     pageSize: this.page.pageSize
                 }

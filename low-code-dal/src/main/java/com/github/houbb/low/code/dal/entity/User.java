@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 
 /**
@@ -15,8 +13,8 @@ import java.io.Serializable;
  * 用户表
  * </p>
  *
- * @author Administrator
- * @since 2021-04-24
+ * @author binbin.hou
+ * @since 2021-04-25
  */
 public class User implements Serializable {
 
@@ -62,14 +60,12 @@ public class User implements Serializable {
      * 创建时间戳
      */
     @TableField("create_time")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
      * 更新时间戳
      */
     @TableField("update_time")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     public Integer getId() {

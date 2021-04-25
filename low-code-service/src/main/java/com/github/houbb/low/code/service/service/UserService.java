@@ -1,8 +1,8 @@
 package com.github.houbb.low.code.service.service;
 
 import com.github.houbb.low.code.dal.entity.User;
+import com.github.houbb.low.code.dal.entity.po.UserPagePo;
 import com.baomidou.mybatisplus.service.IService;
-import com.github.houbb.web.common.dto.req.CommonPageReq;
 import com.github.houbb.web.common.dto.resp.BasePageInfo;
 
 /**
@@ -10,8 +10,8 @@ import com.github.houbb.web.common.dto.resp.BasePageInfo;
  * 用户表 服务类
  * </p>
  *
- * @author Administrator
- * @since 2021-04-24
+ * @author binbin.hou
+ * @since 2021-04-25
  */
 public interface UserService extends IService<User> {
 
@@ -20,6 +20,6 @@ public interface UserService extends IService<User> {
     * @param pageReq 请求
     * @return 结果
     */
-    BasePageInfo<User> pageQueryList(CommonPageReq pageReq);
+    BasePageInfo<User> pageQueryList(UserPagePo pageReq);
 
 }

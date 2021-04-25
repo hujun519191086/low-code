@@ -2,7 +2,6 @@ package ${package.Controller};
 
 import com.github.houbb.auto.log.annotation.AutoLog;
 import com.github.houbb.auto.log.annotation.TraceId;
-import com.github.houbb.web.common.dto.req.CommonPageReq;
 import com.github.houbb.web.common.dto.resp.BaseResp;
 import com.github.houbb.web.common.dto.resp.BasePageInfo;
 import com.github.houbb.web.common.util.RespUtil;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
+import ${package.Entity}.po.${entity}PagePo;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -57,6 +57,11 @@ public class ${table.controllerName} {
     return "${table.name}/index";
     }
 
+    /**
+    * 添加元素
+    * @param entity 实体
+    * @return 结果
+    */
     @RequestMapping("/add")
     @ResponseBody
     public BaseResp add(@RequestBody final ${entity} entity) {
@@ -65,6 +70,11 @@ public class ${table.controllerName} {
         return RespUtil.success();
     }
 
+    /**
+    * 编辑
+    * @param entity 实体
+    * @return 结果
+    */
     @RequestMapping("/edit")
     @ResponseBody
     public BaseResp edit(final ${entity} entity) {
@@ -73,6 +83,11 @@ public class ${table.controllerName} {
         return RespUtil.success();
     }
 
+    /**
+    * 删除
+    * @param id 实体
+    * @return 结果
+    */
     @RequestMapping("/remove/{id}")
     @ResponseBody
     public BaseResp remove(@PathVariable final Integer id) {
@@ -80,9 +95,14 @@ public class ${table.controllerName} {
         return RespUtil.success();
     }
 
+    /**
+    * 列表
+    * @param pageReq 入参
+    * @return 结果
+    */
     @RequestMapping("/list")
     @ResponseBody
-    public BaseResp list(@RequestBody CommonPageReq pageReq) {
+    public BaseResp list(@RequestBody ${entity}PagePo pageReq) {
         BasePageInfo<${entity}> pageInfo = entityService.pageQueryList(pageReq);
         return RespUtil.of(pageInfo);
     }
