@@ -23,7 +23,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param pageReq 请求
     * @return 结果
     */
-    BasePageInfo<${entity}> pageQueryList(UserPagePo pageReq);
+    BasePageInfo<${entity}> pageQueryList(${entity}PagePo pageReq);
 
 }
 </#if>

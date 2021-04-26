@@ -27,6 +27,7 @@ public class MPCleaner {
     public static void main(String[] args) {
         String[] tables = new String[]{
                 "user",
+                "enum_mapping",
         };
 
         for(String table : tables) {

@@ -1,16 +1,16 @@
 package com.github.houbb.low.code.dal.entity.po;
 
-import com.github.houbb.low.code.dal.entity.User;
+import com.github.houbb.low.code.dal.entity.LcEnumMapping;
 
 /**
  * <p>
- * 用户表-分页查询对象
+ * 枚举映射表-分页查询对象
  * </p>
  *
  * @author Administrator
  * @since 2021-04-27
  */
-public class UserPagePo extends User {
+public class LcEnumMappingPagePo extends LcEnumMapping {
 
     /**
     * 分页大小
@@ -40,7 +40,7 @@ public class UserPagePo extends User {
 
     @Override
     public String toString() {
-        return "UserPagePo{" +
+        return "LcEnumMappingPagePo{" +
         "pageSize=" + pageSize +
         ", pageNum=" + pageNum +
         "} " + super.toString();

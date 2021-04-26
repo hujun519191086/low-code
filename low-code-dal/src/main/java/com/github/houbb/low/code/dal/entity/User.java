@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author Administrator
- * @since 2021-04-25
+ * @since 2021-04-27
  */
 public class User implements Serializable {
 
@@ -48,6 +48,13 @@ public class User implements Serializable {
     @TableField("remark")
     @ExcelField(headName = "用户描述")
     private String remark;
+
+    /**
+     * 用户状态
+     */
+    @TableField("status")
+    @ExcelField(headName = "用户状态")
+    private String status;
 
     /**
      * 应用名称
@@ -105,6 +112,13 @@ public class User implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public String getAppName() {
         return appName;
     }
@@ -141,6 +155,7 @@ public class User implements Serializable {
         ", userId=" + userId +
         ", userName=" + userName +
         ", remark=" + remark +
+        ", status=" + status +
         ", appName=" + appName +
         ", operatorName=" + operatorName +
         ", createTime=" + createTime +

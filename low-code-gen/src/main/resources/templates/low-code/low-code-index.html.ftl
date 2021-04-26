@@ -16,7 +16,7 @@
 
             <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
                 <#-- ----------  BEGIN 字段循环遍历  ---------->
-                <#list table.fields as field>
+                <#list queryFields as field>
                     <el-form-item label="${field.comment}">
                         <el-input v-model="queryForm.${field.propertyName}"></el-input>
                     </el-form-item>
@@ -43,7 +43,7 @@
                     border
                     stripe
                     style="width: 100%">
-                <el-table-column type="index" label="序号" width="60">
+<#--                <el-table-column type="index" label="序号" width="60">-->
                 </el-table-column>
 
                 <#-- ----------  BEGIN 字段循环遍历  ---------->
@@ -85,7 +85,7 @@
 
         <el-dialog title="添加${table.comment}" :visible.sync="dialogAddVisible">
             <el-form :model="addForm"  ref="addForm">
-                <#list table.fields as field>
+                <#list addFields as field>
                     <el-form-item label="${field.comment}" prop="${field.propertyName}">
                         <el-input v-model="addForm.${field.propertyName}">
                         </el-input>
@@ -100,7 +100,7 @@
 
         <el-dialog title="修改${table.comment}" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
             <el-form :model="editForm" ref="editForm">
-                <#list table.fields as field>
+                <#list editFields as field>
                     <el-form-item label="${field.comment}" prop="${field.propertyName}">
                         <el-input v-model="editForm.${field.propertyName}">
                         </el-input>
@@ -136,18 +136,18 @@
             },
             dialogAddVisible: false,
             addForm: {
-                <#list table.fields as field>
+                <#list addFields as field>
                 ${field.propertyName}: '',
                 </#list>
             },
             queryForm: {
-                <#list table.fields as field>
+                <#list queryFields as field>
                 ${field.propertyName}: null,
                 </#list>
             },
             dialogEditVisible: false,
             editForm: {
-                <#list table.fields as field>
+                <#list editFields as field>
                 ${field.propertyName}: '',
                 </#list>
             },

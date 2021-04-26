@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>用户表首页</title>
+    <title>枚举映射表首页</title>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"/>
     <link rel="stylesheet" href="/css/common.css"/>
@@ -15,23 +15,17 @@
         <el-main>
 
             <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
-                    <el-form-item label="用户标识">
-                        <el-input v-model="queryForm.userId"></el-input>
+                    <el-form-item label="表名称">
+                        <el-input v-model="queryForm.tableName"></el-input>
                     </el-form-item>
-                    <el-form-item label="用户名称">
-                        <el-input v-model="queryForm.userName"></el-input>
+                    <el-form-item label="字段名称">
+                        <el-input v-model="queryForm.columnName"></el-input>
                     </el-form-item>
-                    <el-form-item label="用户描述">
-                        <el-input v-model="queryForm.remark"></el-input>
+                    <el-form-item label="字段编码">
+                        <el-input v-model="queryForm.key"></el-input>
                     </el-form-item>
-                    <el-form-item label="用户状态">
-                        <el-input v-model="queryForm.status"></el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称">
-                        <el-input v-model="queryForm.appName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称">
-                        <el-input v-model="queryForm.operatorName"></el-input>
+                    <el-form-item label="字段显示">
+                        <el-input v-model="queryForm.label"></el-input>
                     </el-form-item>
 
                 <el-form-item>
@@ -61,28 +55,20 @@
                             label="自增主键">
                     </el-table-column>
                     <el-table-column
-                            property="userId"
-                            label="用户标识">
+                            property="tableName"
+                            label="表名称">
                     </el-table-column>
                     <el-table-column
-                            property="userName"
-                            label="用户名称">
+                            property="columnName"
+                            label="字段名称">
                     </el-table-column>
                     <el-table-column
-                            property="remark"
-                            label="用户描述">
+                            property="key"
+                            label="字段编码">
                     </el-table-column>
                     <el-table-column
-                            property="status"
-                            label="用户状态">
-                    </el-table-column>
-                    <el-table-column
-                            property="appName"
-                            label="应用名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="operatorName"
-                            label="操作员名称">
+                            property="label"
+                            label="字段显示">
                     </el-table-column>
                     <el-table-column
                             property="createTime"
@@ -121,30 +107,22 @@
 
         <my-footer></my-footer>
 
-        <el-dialog title="添加用户表" :visible.sync="dialogAddVisible">
+        <el-dialog title="添加枚举映射表" :visible.sync="dialogAddVisible">
             <el-form :model="addForm"  ref="addForm">
-                    <el-form-item label="用户标识" prop="userId">
-                        <el-input v-model="addForm.userId">
+                    <el-form-item label="表名称" prop="tableName">
+                        <el-input v-model="addForm.tableName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户名称" prop="userName">
-                        <el-input v-model="addForm.userName">
+                    <el-form-item label="字段名称" prop="columnName">
+                        <el-input v-model="addForm.columnName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户描述" prop="remark">
-                        <el-input v-model="addForm.remark">
+                    <el-form-item label="字段编码" prop="key">
+                        <el-input v-model="addForm.key">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户状态" prop="status">
-                        <el-input v-model="addForm.status">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称" prop="appName">
-                        <el-input v-model="addForm.appName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称" prop="operatorName">
-                        <el-input v-model="addForm.operatorName">
+                    <el-form-item label="字段显示" prop="label">
+                        <el-input v-model="addForm.label">
                         </el-input>
                     </el-form-item>
             </el-form>
@@ -154,30 +132,22 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="修改用户表" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
+        <el-dialog title="修改枚举映射表" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
             <el-form :model="editForm" ref="editForm">
-                    <el-form-item label="用户标识" prop="userId">
-                        <el-input v-model="editForm.userId">
+                    <el-form-item label="表名称" prop="tableName">
+                        <el-input v-model="editForm.tableName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户名称" prop="userName">
-                        <el-input v-model="editForm.userName">
+                    <el-form-item label="字段名称" prop="columnName">
+                        <el-input v-model="editForm.columnName">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户描述" prop="remark">
-                        <el-input v-model="editForm.remark">
+                    <el-form-item label="字段编码" prop="key">
+                        <el-input v-model="editForm.key">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户状态" prop="status">
-                        <el-input v-model="editForm.status">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称" prop="appName">
-                        <el-input v-model="editForm.appName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称" prop="operatorName">
-                        <el-input v-model="editForm.operatorName">
+                    <el-form-item label="字段显示" prop="label">
+                        <el-input v-model="editForm.label">
                         </el-input>
                     </el-form-item>
             </el-form>
@@ -210,29 +180,23 @@
             },
             dialogAddVisible: false,
             addForm: {
-                userId: '',
-                userName: '',
-                remark: '',
-                status: '',
-                appName: '',
-                operatorName: '',
+                tableName: '',
+                columnName: '',
+                key: '',
+                label: '',
             },
             queryForm: {
-                userId: null,
-                userName: null,
-                remark: null,
-                status: null,
-                appName: null,
-                operatorName: null,
+                tableName: null,
+                columnName: null,
+                key: null,
+                label: null,
             },
             dialogEditVisible: false,
             editForm: {
-                userId: '',
-                userName: '',
-                remark: '',
-                status: '',
-                appName: '',
-                operatorName: '',
+                tableName: '',
+                columnName: '',
+                key: '',
+                label: '',
             },
         },
         mounted () {
@@ -247,12 +211,10 @@
             doQuery() {
                 var req = {
                     id: this.queryForm.id,
-                    userId: this.queryForm.userId,
-                    userName: this.queryForm.userName,
-                    remark: this.queryForm.remark,
-                    status: this.queryForm.status,
-                    appName: this.queryForm.appName,
-                    operatorName: this.queryForm.operatorName,
+                    tableName: this.queryForm.tableName,
+                    columnName: this.queryForm.columnName,
+                    key: this.queryForm.key,
+                    label: this.queryForm.label,
                     createTime: this.queryForm.createTime,
                     updateTime: this.queryForm.updateTime,
                     pageNum: this.page.pageNum,
@@ -262,7 +224,7 @@
                 console.log("请求：" + JSON.stringify(req));
                 //axios 中的 this 并不指向 vue
                 var _this = this;
-                axios.post('/user/list', req).then(function (response) {
+                axios.post('/lcEnumMapping/list', req).then(function (response) {
                     if(response.data.respCode === '0000') {
                         _this.tableData = response.data.list;
                         _this.page.total = response.data.total;
@@ -276,12 +238,10 @@
             },
             doQueryClear() {
                 this.queryForm.id = null;
-                this.queryForm.userId = null;
-                this.queryForm.userName = null;
-                this.queryForm.remark = null;
-                this.queryForm.status = null;
-                this.queryForm.appName = null;
-                this.queryForm.operatorName = null;
+                this.queryForm.tableName = null;
+                this.queryForm.columnName = null;
+                this.queryForm.key = null;
+                this.queryForm.label = null;
                 this.queryForm.createTime = null;
                 this.queryForm.updateTime = null;
 
@@ -290,12 +250,10 @@
             doExport() {
                 var req = {
                     id: this.queryForm.id,
-                    userId: this.queryForm.userId,
-                    userName: this.queryForm.userName,
-                    remark: this.queryForm.remark,
-                    status: this.queryForm.status,
-                    appName: this.queryForm.appName,
-                    operatorName: this.queryForm.operatorName,
+                    tableName: this.queryForm.tableName,
+                    columnName: this.queryForm.columnName,
+                    key: this.queryForm.key,
+                    label: this.queryForm.label,
                     createTime: this.queryForm.createTime,
                     updateTime: this.queryForm.updateTime,
                 }
@@ -305,7 +263,7 @@
                 var _this = this;
                 axios({ // 用axios发送post请求
                     method: 'post',
-                    url: '/user/export', // 请求地址
+                    url: '/lcEnumMapping/export', // 请求地址
                     data: req, // 参数
                     responseType: 'blob', // 表明返回服务器返回的数据类型
                     headers: {'Content-Type': 'application/json'}
@@ -332,7 +290,7 @@
             handleDelete(row) {
                 var id = row.id;
                 var _this = this;
-                axios.post('/user/remove/' + id).then(function (response) {
+                axios.post('/lcEnumMapping/remove/' + id).then(function (response) {
                     if(response.data.respCode === '0000') {
                         _this.doQuery();
 
@@ -370,16 +328,14 @@
 
                 var entity = {
                     id: this.addForm.id,
-                    userId: this.addForm.userId,
-                    userName: this.addForm.userName,
-                    remark: this.addForm.remark,
-                    status: this.addForm.status,
-                    appName: this.addForm.appName,
-                    operatorName: this.addForm.operatorName,
+                    tableName: this.addForm.tableName,
+                    columnName: this.addForm.columnName,
+                    key: this.addForm.key,
+                    label: this.addForm.label,
                     createTime: this.addForm.createTime,
                     updateTime: this.addForm.updateTime,
                 }
-                axios.post('/user/add', entity).then(function (response) {
+                axios.post('/lcEnumMapping/add', entity).then(function (response) {
                     if(response.data.respCode === '0000') {
                         ELEMENT.Message.success("请求成功");
                         _this.closeDialogAddVisible();
@@ -402,12 +358,10 @@
             },
             handleEdit(row) {
                 this.editForm.id = row.id;
-                this.editForm.userId = row.userId;
-                this.editForm.userName = row.userName;
-                this.editForm.remark = row.remark;
-                this.editForm.status = row.status;
-                this.editForm.appName = row.appName;
-                this.editForm.operatorName = row.operatorName;
+                this.editForm.tableName = row.tableName;
+                this.editForm.columnName = row.columnName;
+                this.editForm.key = row.key;
+                this.editForm.label = row.label;
                 this.editForm.createTime = row.createTime;
                 this.editForm.updateTime = row.updateTime;
 
@@ -421,19 +375,17 @@
             saveEditForm(editForm) {
                 var entity = {
                     id: this.editForm.id,
-                    userId: this.editForm.userId,
-                    userName: this.editForm.userName,
-                    remark: this.editForm.remark,
-                    status: this.editForm.status,
-                    appName: this.editForm.appName,
-                    operatorName: this.editForm.operatorName,
+                    tableName: this.editForm.tableName,
+                    columnName: this.editForm.columnName,
+                    key: this.editForm.key,
+                    label: this.editForm.label,
                     createTime: this.editForm.createTime,
                     updateTime: this.editForm.updateTime,
                 };
                 // 此处使用 qs 序列化，后端不需要使用 @RequestBody 注解。
                 var data = Qs.stringify(entity);
                 var _this = this;
-                axios.post('/user/edit', data).then(function (response) {
+                axios.post('/lcEnumMapping/edit', data).then(function (response) {
                     if(response.data.respCode === '0000') {
                         ELEMENT.Message.success("请求成功");
                         _this.doQuery();

@@ -1,9 +1,9 @@
 package com.github.houbb.low.code.service.service.impl;
 
-import com.github.houbb.low.code.dal.entity.User;
-import com.github.houbb.low.code.dal.entity.po.UserPagePo;
-import com.github.houbb.low.code.dal.mapper.UserMapper;
-import com.github.houbb.low.code.service.service.UserService;
+import com.github.houbb.low.code.dal.entity.LcEnumMapping;
+import com.github.houbb.low.code.dal.entity.po.LcEnumMappingPagePo;
+import com.github.houbb.low.code.dal.mapper.LcEnumMappingMapper;
+import com.github.houbb.low.code.service.service.LcEnumMappingService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import com.github.houbb.web.common.dto.resp.BasePageInfo;
@@ -19,14 +19,14 @@ import java.util.List;
 
 /**
  * <p>
- * 用户表 服务实现类
+ * 枚举映射表 服务实现类
  * </p>
  *
  * @author Administrator
  * @since 2021-04-27
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class LcEnumMappingServiceImpl extends ServiceImpl<LcEnumMappingMapper, LcEnumMapping> implements LcEnumMappingService {
 
     /**
     * 分页查询
@@ -35,12 +35,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     * @return 结果
     */
     @Override
-    public BasePageInfo<User> pageQueryList(UserPagePo pageReq) {
-        Wrapper<User> wrapper = buildPageQueryWrapper(pageReq);
+    public BasePageInfo<LcEnumMapping> pageQueryList(LcEnumMappingPagePo pageReq) {
+        Wrapper<LcEnumMapping> wrapper = buildPageQueryWrapper(pageReq);
 
-        Page<User> page = new Page<>(pageReq.getPageNum(), pageReq.getPageSize());
+        Page<LcEnumMapping> page = new Page<>(pageReq.getPageNum(), pageReq.getPageSize());
         page = this.selectPage(page, wrapper);
-        BasePageInfo<User> pageInfo = new BasePageInfo<>();
+        BasePageInfo<LcEnumMapping> pageInfo = new BasePageInfo<>();
         pageInfo.setList(page.getRecords());
         pageInfo.setTotal(page.getTotal());
         return pageInfo;
@@ -52,8 +52,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     * @param pageReq 入参对象
     * @return 结果
     */
-    private Wrapper<User> buildPageQueryWrapper(UserPagePo pageReq) {
-        Wrapper<User> wrapper = new EntityWrapper<>();
+    private Wrapper<LcEnumMapping> buildPageQueryWrapper(LcEnumMappingPagePo pageReq) {
+        Wrapper<LcEnumMapping> wrapper = new EntityWrapper<>();
         List<Field> fieldList = ClassUtil.getAllFieldList(pageReq.getClass());
         for(Field field : fieldList) {
             String fieldName = field.getName();

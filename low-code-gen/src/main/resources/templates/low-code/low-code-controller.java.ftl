@@ -60,7 +60,7 @@ public class ${table.controllerName} {
     */
     @RequestMapping("/index")
     public String index() {
-    return "${table.name}/index";
+        return "${table.entityPath}/index";
     }
 
     /**
@@ -121,7 +121,7 @@ public class ${table.controllerName} {
     @RequestMapping("/export")
     @ResponseBody
     @CrossOrigin
-    public void export(@RequestBody UserPagePo pageReq, HttpServletResponse response) {
+    public void export(@RequestBody ${entity}PagePo pageReq, HttpServletResponse response) {
         final String fileName = "文件导出-${table.comment}-" + System.currentTimeMillis() + ".xls";
         File file = new File(fileName);
         try {

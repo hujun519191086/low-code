@@ -9,9 +9,9 @@ import com.github.houbb.web.common.dto.resp.BasePageInfo;
 import com.github.houbb.web.common.util.RespUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.github.houbb.low.code.service.service.UserService;
-import com.github.houbb.low.code.dal.entity.User;
-import com.github.houbb.low.code.dal.entity.po.UserPagePo;
+import com.github.houbb.low.code.service.service.LcEnumMappingService;
+import com.github.houbb.low.code.dal.entity.LcEnumMapping;
+import com.github.houbb.low.code.dal.entity.po.LcEnumMappingPagePo;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.ServletOutputStream;
@@ -23,27 +23,27 @@ import java.net.URLEncoder;
 
 /**
  * <p>
- * 用户表 前端控制器
+ * 枚举映射表 前端控制器
  * </p>
  *
  * @author Administrator
  * @since 2021-04-27
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/lcEnumMapping")
 @TraceId
 @AutoLog
-public class UserController {
+public class LcEnumMappingController {
 
     @Autowired
-    private UserService userService;
+    private LcEnumMappingService lcEnumMappingService;
 
     /**
     * 首页
     */
     @RequestMapping("/index")
     public String index() {
-        return "user/index";
+        return "lcEnumMapping/index";
     }
 
     /**
@@ -53,8 +53,8 @@ public class UserController {
     */
     @RequestMapping("/add")
     @ResponseBody
-    public BaseResp add(@RequestBody final User entity) {
-        userService.insert(entity);
+    public BaseResp add(@RequestBody final LcEnumMapping entity) {
+        lcEnumMappingService.insert(entity);
 
         return RespUtil.success();
     }
@@ -66,8 +66,8 @@ public class UserController {
     */
     @RequestMapping("/edit")
     @ResponseBody
-    public BaseResp edit(final User entity) {
-        userService.updateById(entity);
+    public BaseResp edit(final LcEnumMapping entity) {
+        lcEnumMappingService.updateById(entity);
 
         return RespUtil.success();
     }
@@ -80,7 +80,7 @@ public class UserController {
     @RequestMapping("/remove/{id}")
     @ResponseBody
     public BaseResp remove(@PathVariable final Integer id) {
-        userService.deleteById(id);
+        lcEnumMappingService.deleteById(id);
         return RespUtil.success();
     }
 
@@ -91,8 +91,8 @@ public class UserController {
     */
     @RequestMapping("/list")
     @ResponseBody
-    public BaseResp list(@RequestBody UserPagePo pageReq) {
-        BasePageInfo<User> pageInfo = userService.pageQueryList(pageReq);
+    public BaseResp list(@RequestBody LcEnumMappingPagePo pageReq) {
+        BasePageInfo<LcEnumMapping> pageInfo = lcEnumMappingService.pageQueryList(pageReq);
         return RespUtil.of(pageInfo);
     }
 
@@ -104,14 +104,14 @@ public class UserController {
     @RequestMapping("/export")
     @ResponseBody
     @CrossOrigin
-    public void export(@RequestBody UserPagePo pageReq, HttpServletResponse response) {
-        final String fileName = "文件导出-用户表-" + System.currentTimeMillis() + ".xls";
+    public void export(@RequestBody LcEnumMappingPagePo pageReq, HttpServletResponse response) {
+        final String fileName = "文件导出-枚举映射表-" + System.currentTimeMillis() + ".xls";
         File file = new File(fileName);
         try {
             pageReq.setPageNum(1);
             pageReq.setPageSize(Integer.MAX_VALUE);
 
-            BasePageInfo<User> pageInfo = userService.pageQueryList(pageReq);
+            BasePageInfo<LcEnumMapping> pageInfo = lcEnumMappingService.pageQueryList(pageReq);
 
             // 直接写入到文件
             ExcelHelper.write(file.getAbsolutePath(), pageInfo.getList());

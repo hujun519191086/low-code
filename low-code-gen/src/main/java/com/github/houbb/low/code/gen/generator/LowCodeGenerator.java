@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.github.houbb.low.code.gen.builder.MyConfigBuilder;
 import com.github.houbb.low.code.gen.config.PagePoFileOutConfig;
 import com.github.houbb.low.code.gen.config.VueFileOutConfig;
 import com.github.houbb.low.code.gen.config.VueInjectionConfig;
@@ -40,6 +41,7 @@ public class LowCodeGenerator {
     public static void main(String[] args) {
         String[] tables = new String[]{
                 "user",
+                "lc_enum_mapping",
         };
 
         genPagePo(tables);
@@ -138,7 +140,7 @@ public class LowCodeGenerator {
         List<FileOutConfig> outConfigs = Arrays.asList(vueOutConfig);
         injectionConfig.setFileOutConfigList(outConfigs);
 
-        ConfigBuilder config = new ConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
                 mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
         mpg.setConfig(config);
         mpg.getConfig().setInjectionConfig(injectionConfig);
@@ -161,7 +163,7 @@ public class LowCodeGenerator {
         List<FileOutConfig> outConfigs = Arrays.asList(vueOutConfig);
         injectionConfig.setFileOutConfigList(outConfigs);
 
-        ConfigBuilder config = new ConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
                 mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
         mpg.setConfig(config);
         mpg.getConfig().setInjectionConfig(injectionConfig);
@@ -183,6 +185,10 @@ public class LowCodeGenerator {
 //        mpg.getTemplate().setEntity(ConstVal.TEMPLATE_ENTITY_JAVA);
         mpg.getTemplate().setEntity("/templates/low-code/low-code-entity.java");
 
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
+
         mpg.execute();
     }
 
@@ -198,6 +204,10 @@ public class LowCodeGenerator {
         mpg.getGlobalConfig().setOutputDir(BASE_DIR+"/"+moduleName+"\\src\\main\\java\\");
         mpg.getTemplate().setMapper(ConstVal.TEMPLATE_MAPPER);
 
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
+
         mpg.execute();
     }
 
@@ -212,6 +222,10 @@ public class LowCodeGenerator {
         mpg.getGlobalConfig().setOutputDir(BASE_DIR+"/"+moduleName+"\\src\\main\\resources\\");
         mpg.getTemplate().setXml(ConstVal.TEMPLATE_XML);
 
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
+
         mpg.execute();
     }
 
@@ -223,6 +237,10 @@ public class LowCodeGenerator {
         mpg.getTemplate().setService(LowCodeConst.TEMPLATE_SERVICE);
         mpg.getTemplate().setServiceImpl(LowCodeConst.TEMPLATE_SERVICEIMPL);
 
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
+
         mpg.execute();
     }
 
@@ -232,6 +250,10 @@ public class LowCodeGenerator {
 
         mpg.getGlobalConfig().setOutputDir(BASE_DIR+"/"+moduleName+"\\src\\main\\java\\");
         mpg.getTemplate().setController(LowCodeConst.TEMPLATE_CONTROLLER);
+
+        ConfigBuilder config = new MyConfigBuilder(mpg.getPackageInfo(), mpg.getDataSource(),
+                mpg.getStrategy(), mpg.getTemplate(), mpg.getGlobalConfig());
+        mpg.setConfig(config);
 
         mpg.execute();
     }
