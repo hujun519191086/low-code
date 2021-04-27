@@ -14,12 +14,26 @@
 
         <el-main>
 
-            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
+            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="100px">
                 <#-- ----------  BEGIN 字段循环遍历  ---------->
                 <#list queryFields as field>
-                    <el-form-item label="${field.comment}">
-                        <el-input v-model="queryForm.${field.propertyName}"></el-input>
-                    </el-form-item>
+                    <#if field.customMap.hasEnum>
+                        <el-form-item label="${field.comment}" label-width="100px">
+                            <el-select v-model="queryForm.${field.propertyName}" placeholder="请选择">
+                                <el-option
+                                        v-for="item in ${field.propertyName}Options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    <#else>
+                        <el-form-item label="${field.comment}" label-width="100px">
+                            <el-input v-model="queryForm.${field.propertyName}"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                    </#if>
                 </#list>
                 <#------------  END 字段循环遍历  ---------->
 
@@ -48,22 +62,33 @@
 
                 <#-- ----------  BEGIN 字段循环遍历  ---------->
                 <#list table.fields as field>
-                    <el-table-column
-                            property="${field.propertyName}"
-                            label="${field.comment}">
-                    </el-table-column>
+                    <#if field.customMap.hasEnum>
+                        <el-table-column
+                                property="${field.propertyName}"
+                                label="${field.comment}"
+                                :formatter="${field.propertyName}Formatter">
+                        </el-table-column>
+                    <#else>
+                        <el-table-column
+                                property="${field.propertyName}"
+                                label="${field.comment}">
+                        </el-table-column>
+                    </#if>
+
                 </#list>
                 <#------------  END 字段循环遍历  ---------->
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button
-                                size="mini"
-                                @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
-                        <el-button
-                                size="mini"
-                                type="danger"
-                                @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                        <el-button-group>
+                            <el-button
+                                    size="mini"
+                                    @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                        </el-button-group>
                     </template>
                 </el-table-column>
             </el-table>
@@ -86,10 +111,25 @@
         <el-dialog title="添加${table.comment}" :visible.sync="dialogAddVisible">
             <el-form :model="addForm"  ref="addForm">
                 <#list addFields as field>
-                    <el-form-item label="${field.comment}" prop="${field.propertyName}">
-                        <el-input v-model="addForm.${field.propertyName}">
-                        </el-input>
-                    </el-form-item>
+                    <#if field.customMap.hasEnum>
+                        <el-form-item label="${field.comment}" label-width="100px">
+                            <el-select v-model="addForm.${field.propertyName}" placeholder="请选择">
+                                <el-option
+                                        v-for="item in ${field.propertyName}Options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    <#else>
+                        <el-form-item label="${field.comment}"
+                                      prop="${field.propertyName}"
+                                      label-width="100px">
+                            <el-input v-model="addForm.${field.propertyName}" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                    </#if>
                 </#list>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -100,11 +140,27 @@
 
         <el-dialog title="修改${table.comment}" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
             <el-form :model="editForm" ref="editForm">
+
                 <#list editFields as field>
-                    <el-form-item label="${field.comment}" prop="${field.propertyName}">
-                        <el-input v-model="editForm.${field.propertyName}">
-                        </el-input>
-                    </el-form-item>
+                    <#if field.customMap.hasEnum>
+                        <el-form-item label="${field.comment}" label-width="100px">
+                            <el-select v-model="editForm.${field.propertyName}" placeholder="请选择">
+                                <el-option
+                                        v-for="item in ${field.propertyName}Options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    <#else>
+                        <el-form-item label="${field.comment}"
+                                      prop="${field.propertyName}"
+                                      label-width="100px">
+                            <el-input v-model="editForm.${field.propertyName}" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                    </#if>
                 </#list>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -134,6 +190,18 @@
                 pageNum: 1,
                 pageSize: 10
             },
+            <#list queryFields as field>
+                <#if field.customMap.hasEnum>
+                    ${field.propertyName}Options: [
+                        <#list field.customMap.enumMapping as option>
+                        {
+                            value: '${option.key}',
+                            label: '${option.label}'
+                        },
+                        </#list>
+                    ],
+                </#if>
+            </#list>
             dialogAddVisible: false,
             addForm: {
                 <#list addFields as field>
@@ -161,6 +229,19 @@
                 // 加载数据
                 this.doQuery();
             },
+            // 格式化输出方法
+            <#list queryFields as field>
+                <#if field.customMap.hasEnum>
+                ${field.propertyName}Formatter(row, column) {
+                    <#list field.customMap.enumMapping as option>
+                    if(row.${field.propertyName} === '${option.key}') {
+                        return '${option.label}';
+                    }
+                    </#list>
+                },
+                </#if>
+            </#list>
+
             doQuery() {
                 var req = {
                     <#list table.fields as field>

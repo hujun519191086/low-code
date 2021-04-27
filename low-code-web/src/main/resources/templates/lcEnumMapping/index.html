@@ -14,19 +14,23 @@
 
         <el-main>
 
-            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
-                    <el-form-item label="表名称">
-                        <el-input v-model="queryForm.tableName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="字段名称">
-                        <el-input v-model="queryForm.columnName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="字段编码">
-                        <el-input v-model="queryForm.key"></el-input>
-                    </el-form-item>
-                    <el-form-item label="字段显示">
-                        <el-input v-model="queryForm.label"></el-input>
-                    </el-form-item>
+            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="100px">
+                        <el-form-item label="表名称" label-width="100px">
+                            <el-input v-model="queryForm.tableName"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="字段名称" label-width="100px">
+                            <el-input v-model="queryForm.columnName"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="字段编码" label-width="100px">
+                            <el-input v-model="queryForm.key"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="字段显示" label-width="100px">
+                            <el-input v-model="queryForm.label"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
 
                 <el-form-item>
                     <el-button-group>
@@ -50,44 +54,53 @@
                     style="width: 100%">
                 </el-table-column>
 
-                    <el-table-column
-                            property="id"
-                            label="自增主键">
-                    </el-table-column>
-                    <el-table-column
-                            property="tableName"
-                            label="表名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="columnName"
-                            label="字段名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="key"
-                            label="字段编码">
-                    </el-table-column>
-                    <el-table-column
-                            property="label"
-                            label="字段显示">
-                    </el-table-column>
-                    <el-table-column
-                            property="createTime"
-                            label="创建时间戳">
-                    </el-table-column>
-                    <el-table-column
-                            property="updateTime"
-                            label="更新时间戳">
-                    </el-table-column>
+                        <el-table-column
+                                property="id"
+                                label="自增主键">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="tableName"
+                                label="表名称">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="columnName"
+                                label="字段名称">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="key"
+                                label="字段编码">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="label"
+                                label="字段显示">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="createTime"
+                                label="创建时间戳">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="updateTime"
+                                label="更新时间戳">
+                        </el-table-column>
+
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button
-                                size="mini"
-                                @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
-                        <el-button
-                                size="mini"
-                                type="danger"
-                                @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                        <el-button-group>
+                            <el-button
+                                    size="mini"
+                                    @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                        </el-button-group>
                     </template>
                 </el-table-column>
             </el-table>
@@ -109,22 +122,30 @@
 
         <el-dialog title="添加枚举映射表" :visible.sync="dialogAddVisible">
             <el-form :model="addForm"  ref="addForm">
-                    <el-form-item label="表名称" prop="tableName">
-                        <el-input v-model="addForm.tableName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="字段名称" prop="columnName">
-                        <el-input v-model="addForm.columnName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="字段编码" prop="key">
-                        <el-input v-model="addForm.key">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="字段显示" prop="label">
-                        <el-input v-model="addForm.label">
-                        </el-input>
-                    </el-form-item>
+                        <el-form-item label="表名称"
+                                      prop="tableName"
+                                      label-width="100px">
+                            <el-input v-model="addForm.tableName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="字段名称"
+                                      prop="columnName"
+                                      label-width="100px">
+                            <el-input v-model="addForm.columnName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="字段编码"
+                                      prop="key"
+                                      label-width="100px">
+                            <el-input v-model="addForm.key" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="字段显示"
+                                      prop="label"
+                                      label-width="100px">
+                            <el-input v-model="addForm.label" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogAddVisible = false">取 消</el-button>
@@ -134,22 +155,31 @@
 
         <el-dialog title="修改枚举映射表" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
             <el-form :model="editForm" ref="editForm">
-                    <el-form-item label="表名称" prop="tableName">
-                        <el-input v-model="editForm.tableName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="字段名称" prop="columnName">
-                        <el-input v-model="editForm.columnName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="字段编码" prop="key">
-                        <el-input v-model="editForm.key">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="字段显示" prop="label">
-                        <el-input v-model="editForm.label">
-                        </el-input>
-                    </el-form-item>
+
+                        <el-form-item label="表名称"
+                                      prop="tableName"
+                                      label-width="100px">
+                            <el-input v-model="editForm.tableName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="字段名称"
+                                      prop="columnName"
+                                      label-width="100px">
+                            <el-input v-model="editForm.columnName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="字段编码"
+                                      prop="key"
+                                      label-width="100px">
+                            <el-input v-model="editForm.key" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="字段显示"
+                                      prop="label"
+                                      label-width="100px">
+                            <el-input v-model="editForm.label" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogEditVisible = false">取 消</el-button>
@@ -208,6 +238,8 @@
                 // 加载数据
                 this.doQuery();
             },
+            // 格式化输出方法
+
             doQuery() {
                 var req = {
                     id: this.queryForm.id,

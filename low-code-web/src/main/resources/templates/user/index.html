@@ -14,25 +14,37 @@
 
         <el-main>
 
-            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="80px">
-                    <el-form-item label="用户标识">
-                        <el-input v-model="queryForm.userId"></el-input>
-                    </el-form-item>
-                    <el-form-item label="用户名称">
-                        <el-input v-model="queryForm.userName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="用户描述">
-                        <el-input v-model="queryForm.remark"></el-input>
-                    </el-form-item>
-                    <el-form-item label="用户状态">
-                        <el-input v-model="queryForm.status"></el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称">
-                        <el-input v-model="queryForm.appName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称">
-                        <el-input v-model="queryForm.operatorName"></el-input>
-                    </el-form-item>
+            <el-form :model="queryForm" ref="queryForm" :inline="true" label-width="100px">
+                        <el-form-item label="用户标识" label-width="100px">
+                            <el-input v-model="queryForm.userId"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="用户名称" label-width="100px">
+                            <el-input v-model="queryForm.userName"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="用户描述" label-width="100px">
+                            <el-input v-model="queryForm.remark"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="用户状态" label-width="100px">
+                            <el-select v-model="queryForm.status" placeholder="请选择">
+                                <el-option
+                                        v-for="item in statusOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="应用名称" label-width="100px">
+                            <el-input v-model="queryForm.appName"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="操作员名称" label-width="100px">
+                            <el-input v-model="queryForm.operatorName"
+                                      style="width: 217px;"></el-input>
+                        </el-form-item>
 
                 <el-form-item>
                     <el-button-group>
@@ -56,52 +68,64 @@
                     style="width: 100%">
                 </el-table-column>
 
-                    <el-table-column
-                            property="id"
-                            label="自增主键">
-                    </el-table-column>
-                    <el-table-column
-                            property="userId"
-                            label="用户标识">
-                    </el-table-column>
-                    <el-table-column
-                            property="userName"
-                            label="用户名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="remark"
-                            label="用户描述">
-                    </el-table-column>
-                    <el-table-column
-                            property="status"
-                            label="用户状态">
-                    </el-table-column>
-                    <el-table-column
-                            property="appName"
-                            label="应用名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="operatorName"
-                            label="操作员名称">
-                    </el-table-column>
-                    <el-table-column
-                            property="createTime"
-                            label="创建时间戳">
-                    </el-table-column>
-                    <el-table-column
-                            property="updateTime"
-                            label="更新时间戳">
-                    </el-table-column>
+                        <el-table-column
+                                property="id"
+                                label="自增主键">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="userId"
+                                label="用户标识">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="userName"
+                                label="用户名称">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="remark"
+                                label="用户描述">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="status"
+                                label="用户状态"
+                                :formatter="statusFormatter">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="appName"
+                                label="应用名称">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="operatorName"
+                                label="操作员名称">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="createTime"
+                                label="创建时间戳">
+                        </el-table-column>
+
+                        <el-table-column
+                                property="updateTime"
+                                label="更新时间戳">
+                        </el-table-column>
+
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button
-                                size="mini"
-                                @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
-                        <el-button
-                                size="mini"
-                                type="danger"
-                                @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                        <el-button-group>
+                            <el-button
+                                    size="mini"
+                                    @click="handleEdit(scope.row)"><i class="el-icon-edit"></i></el-button>
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="handleDelete(scope.row)"><i class="el-icon-delete"></i></el-button>
+                        </el-button-group>
                     </template>
                 </el-table-column>
             </el-table>
@@ -123,30 +147,46 @@
 
         <el-dialog title="添加用户表" :visible.sync="dialogAddVisible">
             <el-form :model="addForm"  ref="addForm">
-                    <el-form-item label="用户标识" prop="userId">
-                        <el-input v-model="addForm.userId">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户名称" prop="userName">
-                        <el-input v-model="addForm.userName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户描述" prop="remark">
-                        <el-input v-model="addForm.remark">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户状态" prop="status">
-                        <el-input v-model="addForm.status">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称" prop="appName">
-                        <el-input v-model="addForm.appName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称" prop="operatorName">
-                        <el-input v-model="addForm.operatorName">
-                        </el-input>
-                    </el-form-item>
+                        <el-form-item label="用户标识"
+                                      prop="userId"
+                                      label-width="100px">
+                            <el-input v-model="addForm.userId" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="用户名称"
+                                      prop="userName"
+                                      label-width="100px">
+                            <el-input v-model="addForm.userName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="用户描述"
+                                      prop="remark"
+                                      label-width="100px">
+                            <el-input v-model="addForm.remark" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="用户状态" label-width="100px">
+                            <el-select v-model="addForm.status" placeholder="请选择">
+                                <el-option
+                                        v-for="item in statusOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="应用名称"
+                                      prop="appName"
+                                      label-width="100px">
+                            <el-input v-model="addForm.appName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="操作员名称"
+                                      prop="operatorName"
+                                      label-width="100px">
+                            <el-input v-model="addForm.operatorName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogAddVisible = false">取 消</el-button>
@@ -156,30 +196,47 @@
 
         <el-dialog title="修改用户表" :visible.sync="dialogEditVisible" @close="closeDialogEditVisible">
             <el-form :model="editForm" ref="editForm">
-                    <el-form-item label="用户标识" prop="userId">
-                        <el-input v-model="editForm.userId">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户名称" prop="userName">
-                        <el-input v-model="editForm.userName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户描述" prop="remark">
-                        <el-input v-model="editForm.remark">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="用户状态" prop="status">
-                        <el-input v-model="editForm.status">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="应用名称" prop="appName">
-                        <el-input v-model="editForm.appName">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="操作员名称" prop="operatorName">
-                        <el-input v-model="editForm.operatorName">
-                        </el-input>
-                    </el-form-item>
+
+                        <el-form-item label="用户标识"
+                                      prop="userId"
+                                      label-width="100px">
+                            <el-input v-model="editForm.userId" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="用户名称"
+                                      prop="userName"
+                                      label-width="100px">
+                            <el-input v-model="editForm.userName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="用户描述"
+                                      prop="remark"
+                                      label-width="100px">
+                            <el-input v-model="editForm.remark" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="用户状态" label-width="100px">
+                            <el-select v-model="editForm.status" placeholder="请选择">
+                                <el-option
+                                        v-for="item in statusOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="应用名称"
+                                      prop="appName"
+                                      label-width="100px">
+                            <el-input v-model="editForm.appName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="操作员名称"
+                                      prop="operatorName"
+                                      label-width="100px">
+                            <el-input v-model="editForm.operatorName" style="width: 217px;">
+                            </el-input>
+                        </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogEditVisible = false">取 消</el-button>
@@ -208,6 +265,16 @@
                 pageNum: 1,
                 pageSize: 10
             },
+                    statusOptions: [
+                        {
+                            value: 'F',
+                            label: '失效'
+                        },
+                        {
+                            value: 'S',
+                            label: '正常'
+                        },
+                    ],
             dialogAddVisible: false,
             addForm: {
                 userId: '',
@@ -244,6 +311,16 @@
                 // 加载数据
                 this.doQuery();
             },
+            // 格式化输出方法
+                statusFormatter(row, column) {
+                    if(row.status === 'F') {
+                        return '失效';
+                    }
+                    if(row.status === 'S') {
+                        return '正常';
+                    }
+                },
+
             doQuery() {
                 var req = {
                     id: this.queryForm.id,
