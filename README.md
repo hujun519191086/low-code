@@ -55,6 +55,10 @@ mysql 5.7
 
 ![登录页面](index.png)
 
+## 生成示例
+
+![用户界面](user.png)
+
 # 分支特性
 
 [v0.0.1-基本 dal 等实现](https://github.com/houbb/low-code/tree/release_0.0.1)
@@ -65,13 +69,13 @@ mysql 5.7
 
 [v0.0.4-实现 EXCEL 导出](https://github.com/houbb/low-code/tree/release_0.0.4)
 
+[v0.0.5-实现枚举值映射](https://github.com/houbb/low-code/tree/release_0.0.5)
+
 # 拓展阅读
 
 # 后期 Road-MAP
 
 - [ ] 根据 @TableId 获取对应的 id 字段
-
-- [ ] 枚举值的统一处理
 
 - [ ] 批量删除
 
@@ -82,6 +86,10 @@ mysql 5.7
 - [ ] 导入功能
 
 - [ ] 动态菜单 + 下载中心
+
+- [ ] EXCEL 导出枚举值处理
+
+- [x] 枚举值的统一处理
 
 - [x] 依赖名称生成更加优雅，变为首字母小写
 
